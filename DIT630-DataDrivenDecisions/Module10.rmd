@@ -1,0 +1,44 @@
+---
+title: "Iris Interactive"
+output: html_document
+runtime: shiny
+---
+
+# Setup
+Consider the built-in dataset iris, which looks at 3 species of Iris flowers and shows four features measured from each sample: the length and the width of the sepals and petals, in centimeters.
+
+```{r}
+iris_df <- data.frame(iris)
+print(head(iris_df, 10))
+```
+
+A summary of the iris data:
+```{r}
+print(summary(iris_df))
+```
+
+# Interactions
+
+```{r echo=FALSE}
+
+selectInput(inputId='xDropdown',
+            label='Select variable for x axis',
+            choices=list("Sepal.Length"="Sepal.Length", 
+                         "Sepal.Width"="Sepal.Width",
+                         "Petal.Length"="Petal.Length",
+                         "Petal.Width"="Petal.Width"))
+selectInput(inputId='yDropdown',
+            label='Select variable for y axis',
+            choices=list("Sepal.Length"="Sepal.Length", 
+                         "Sepal.Width"="Sepal.Width",
+                         "Petal.Length"="Petal.Length",
+                         "Petal.Width"="Petal.Width"))
+
+```
+
+# Plot
+```{r echo=FALSE}
+library(ggplot2)
+
+renderPlot(ggplot(iris_df, aes_string(x=input$xDropdown, y=input$yDropdown)) + geom_point())
+```
